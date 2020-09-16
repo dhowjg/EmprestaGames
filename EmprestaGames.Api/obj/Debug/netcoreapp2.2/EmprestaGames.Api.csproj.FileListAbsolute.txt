@@ -1,0 +1,14 @@
+D:\projetos\EmprestaGames\EmprestaGames.Api\obj\Debug\netcoreapp2.2\EmprestaGames.Api.csprojAssemblyReference.cache
+D:\projetos\EmprestaGames\EmprestaGames.Api\obj\Debug\netcoreapp2.2\EmprestaGames.Api.csproj.CoreCompileInputs.cache
+D:\projetos\EmprestaGames\EmprestaGames.Api\obj\Debug\netcoreapp2.2\EmprestaGames.Api.RazorAssemblyInfo.cache
+D:\projetos\EmprestaGames\EmprestaGames.Api\obj\Debug\netcoreapp2.2\EmprestaGames.Api.RazorAssemblyInfo.cs
+D:\projetos\EmprestaGames\EmprestaGames.Api\obj\Debug\netcoreapp2.2\EmprestaGames.Api.AssemblyInfoInputs.cache
+D:\projetos\EmprestaGames\EmprestaGames.Api\obj\Debug\netcoreapp2.2\EmprestaGames.Api.AssemblyInfo.cs
+D:\projetos\EmprestaGames\EmprestaGames.Api\bin\Debug\netcoreapp2.2\EmprestaGames.Api.deps.json
+D:\projetos\EmprestaGames\EmprestaGames.Api\bin\Debug\netcoreapp2.2\EmprestaGames.Api.runtimeconfig.json
+D:\projetos\EmprestaGames\EmprestaGames.Api\bin\Debug\netcoreapp2.2\EmprestaGames.Api.runtimeconfig.dev.json
+D:\projetos\EmprestaGames\EmprestaGames.Api\bin\Debug\netcoreapp2.2\EmprestaGames.Api.dll
+D:\projetos\EmprestaGames\EmprestaGames.Api\bin\Debug\netcoreapp2.2\EmprestaGames.Api.pdb
+D:\projetos\EmprestaGames\EmprestaGames.Api\obj\Debug\netcoreapp2.2\EmprestaGames.Api.RazorTargetAssemblyInfo.cache
+D:\projetos\EmprestaGames\EmprestaGames.Api\obj\Debug\netcoreapp2.2\EmprestaGames.Api.dll
+D:\projetos\EmprestaGames\EmprestaGames.Api\obj\Debug\netcoreapp2.2\EmprestaGames.Api.pdb
