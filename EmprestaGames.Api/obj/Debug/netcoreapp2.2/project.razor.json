@@ -1870,6 +1870,17 @@
     "CSharpLanguageVersion": 703
   },
   "RootNamespace": "EmprestaGames.Api",
-  "Documents": [],
+  "Documents": [
+    {
+      "FilePath": "d:\\projetos\\EmprestaGames\\EmprestaGames.Api\\EmprestaGames.Web\\Pages\\Error.cshtml",
+      "TargetPath": "EmprestaGames.Web\\Pages\\Error.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\projetos\\EmprestaGames\\EmprestaGames.Api\\EmprestaGames.Web\\Pages\\_ViewImports.cshtml",
+      "TargetPath": "EmprestaGames.Web\\Pages\\_ViewImports.cshtml",
+      "FileKind": "mvc"
+    }
+  ],
   "SerializationFormat": "0.2"
 }
