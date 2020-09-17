@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
+using EmprestaGames.Api.Respositories;
 using EmprestaGames.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace EmprestaGames.Api
@@ -31,7 +25,10 @@ namespace EmprestaGames.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
+            services.AddScoped<IPessoaRespository, PessoaRespository>();
+            services.AddScoped<IJogoRepository, JogoRepository>();
+            services.AddScoped<IEmprestimoRepository, EmprestimoRepository>();
 
             services.AddCors();
             services.AddMvc(config =>
@@ -41,14 +38,6 @@ namespace EmprestaGames.Api
                                 .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            /*
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("user", policy => policy.RequireClaim("Store", "user"));
-                options.AddPolicy("admin", policy => policy.RequireClaim("Store", "admin"));
-            });
-            */
 
             var key = Encoding.UTF8.GetBytes(ApplicationSettings.EG_Secret);
 

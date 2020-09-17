@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using EmprestaGames.Api.Models;
 using EmprestaGames.Api.Respositories;
@@ -12,7 +9,7 @@ namespace EmprestaGames.Api.Controllers
 {
     [Route("v1/account")]
     [ApiController]
-    public class EmprestaGames : ControllerBase
+    public class UsuarioController : ControllerBase
     {
         [HttpPost]
         [Route("login")]
@@ -39,25 +36,5 @@ namespace EmprestaGames.Api.Controllers
             }
 
         }
-
-        [HttpGet]
-        [Route("anonymous")]
-        [AllowAnonymous]
-        public string Anonymous() => "Anônimo";
-
-        [HttpGet]
-        [Route("authenticated")]
-        [Authorize]
-        public string Authenticated() => String.Format("Autenticacdo - {0}", User.Identity.Name);
-
-        [HttpGet]
-        [Route("funcionario")]
-        [Authorize(Roles = "user, admin")]
-        public string Employee() => String.Format("Funcionario");
-
-        [HttpGet]
-        [Route("gerente")]
-        [Authorize(Roles = "admin")]
-        public string Manager() => String.Format("Gerente");
     }
 }
