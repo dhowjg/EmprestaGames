@@ -1,45 +1,34 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
+import { PessoaService } from '../services/pessoa.service';
 
 @Component({
-  selector: 'app-jogo',
-  templateUrl: './jogo.component.html',
+  selector: 'app-pessoa',
+  templateUrl: './pessoa.component.html',
 })
-export class JogoComponent {
+export class PessoaComponent {
 
-  private baseUrl;
   public carregando: boolean;
-  private url = '';
-  public jogo: Jogo;
-  public jogos: Jogo[];
+  public pessoa: Pessoa;
   public mensagemalerta = '';
   public mensagemdanger = '';
   retorno: Result;
-  autorizathion = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwibmJmIjoxNjAwNTYyMDkwLCJleHAiOjE2MDA1NjkyOTAsImlhdCI6MTYwMDU2MjA5MH0.Wc15qjkTSTFei3mmP9Hlp3d_Qpx0nPsguKCU-aqtF_I';
+  public pessoas: Pessoa[];
 
   Id = 0;
   Nome = '';
-  Descricao = '';
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    this.baseUrl = 'https://localhost:3001/';
-    this.buscarJogos();
+  constructor(private servicePessoa: PessoaService) {
+    this.buscarPessoas();
   }
 
   adcionarItem() {
 
     this.carregando = true;
 
-    const body = { 'Id': this.Id.toString(), 'Nome': this.Nome, 'Descricao': this.Descricao };
+    const body = { 'Id': this.Id.toString(), 'Nome': this.Nome };
 
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + this.autorizathion
-      })
-    };
-
-    this.http.post<Result>(this.baseUrl + 'v1/jogo/inserir', body, options).subscribe(
+    this.servicePessoa.setAdicionarPessoa(body).subscribe(
       result => {
         this.retorno = result;
       },
@@ -49,7 +38,7 @@ export class JogoComponent {
         if (this.retorno.sucess === true) {
           this.mensagemalerta = this.retorno.message;
           this.limparcampos();
-          this.buscarJogos();
+          this.buscarPessoas();
         } else {
           if (this.retorno.message.length > 0) {
             for (let index = 0; index < this.retorno.message.length; index++) {
@@ -63,40 +52,24 @@ export class JogoComponent {
     );
   }
 
-  buscarJogos() {
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + this.autorizathion
-      })
-    };
-
-    this.http.get<Result>(this.baseUrl + 'v1/jogo/get', options).subscribe(result => {
+  buscarPessoas() {
+    this.servicePessoa.getPessoas().subscribe(result => {
       this.retorno = result;
       if (this.retorno.sucess === true) {
-        this.jogos = this.retorno.itens;
+        this.pessoas = this.retorno.itens;
       } else {
-        this.jogos = [];
+        this.pessoas = [];
         this.mensagemalerta = this.retorno.message;
       }
     }, error => console.error(error));
   }
 
-  removerJogos(row) {
-    this.carregando = true;
+  removerPessoas(row) {
 
-    let body: any;
+    this.carregando = true;
     const params = new HttpParams().set('Id', row.id.toString());
 
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + this.autorizathion
-      }),
-      params
-    };
-
-    this.http.post<Result>(this.baseUrl + 'v1/jogo/remover', body, options).subscribe(
+    this.servicePessoa.setRemoverPessoa(params).subscribe(
       result => {
         this.retorno = result;
       },
@@ -106,7 +79,7 @@ export class JogoComponent {
         if (this.retorno.sucess === true) {
           this.mensagemalerta = this.retorno.message;
           this.limparcampos();
-          this.buscarJogos();
+          this.buscarPessoas();
         } else {
           if (this.retorno.message.length > 0) {
             for (let index = 0; index < this.retorno.message.length; index++) {
@@ -120,15 +93,13 @@ export class JogoComponent {
     );
   }
 
-  editarJogos(row) {
-    this.Descricao = row.descricao;
+  editarPessoas(row) {
     this.Id = row.id;
     this.Nome = row.nome;
   }
 
   limparcampos() {
     this.Id = 0;
-    this.Descricao = '';
     this.Nome = '';
   }
 

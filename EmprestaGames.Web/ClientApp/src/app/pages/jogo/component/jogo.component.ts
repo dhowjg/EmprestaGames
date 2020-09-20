@@ -1,49 +1,42 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { JogoService } from '../services/jogo.service';
 
 @Component({
-  selector: 'app-pessoa',
-  templateUrl: './pessoa.component.html',
+  selector: 'app-jogo',
+  templateUrl: './jogo.component.html',
 })
-export class PessoaComponent {
+export class JogoComponent implements OnInit {
 
-  private baseUrl;
+
   public carregando: boolean;
-  private url = '';
-  public pessoa: Pessoas;
+
+  public jogo: Jogo;
+  public jogos: Jogo[];
   public mensagemalerta = '';
   public mensagemdanger = '';
   retorno: Result;
-  public pessoas: Pessoas[];
-  autorizathion = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwibmJmIjoxNjAwNTYyMDkwLCJleHAiOjE2MDA1NjkyOTAsImlhdCI6MTYwMDU2MjA5MH0.Wc15qjkTSTFei3mmP9Hlp3d_Qpx0nPsguKCU-aqtF_I';
 
   Id = 0;
   Nome = '';
+  Descricao = '';
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    this.baseUrl = 'https://localhost:3001/';
-    this.buscarPessoas();
+  constructor(private jogoService: JogoService) {
+
+  }
+  ngOnInit(): void {
+    this.buscarJogos();
   }
 
   adcionarItem() {
 
     this.carregando = true;
 
-    const body = { 'Id': this.Id.toString(), 'Nome': this.Nome };
+    const body = { 'Id': this.Id.toString(), 'Nome': this.Nome, 'Descricao': this.Descricao };
 
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + this.autorizathion
-      })
-    };
-
-    this.http.post<Result>(this.baseUrl + 'v1/pessoa/inserir', body, options).subscribe(
+    this.jogoService.setAdicionarJogo(body).subscribe(
       result => {
         this.retorno = result;
-        if (this.retorno.sucess === true && this.retorno.itens !== '') {
-          this.url = result.itens;
-        }
       },
       err => this.mensagemdanger = err,
       () => {
@@ -51,7 +44,7 @@ export class PessoaComponent {
         if (this.retorno.sucess === true) {
           this.mensagemalerta = this.retorno.message;
           this.limparcampos();
-          this.buscarPessoas();
+          this.buscarJogos();
         } else {
           if (this.retorno.message.length > 0) {
             for (let index = 0; index < this.retorno.message.length; index++) {
@@ -65,40 +58,23 @@ export class PessoaComponent {
     );
   }
 
-  buscarPessoas() {
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + this.autorizathion
-      })
-    };
-
-    this.http.get<Result>(this.baseUrl + 'v1/pessoa/get', options).subscribe(result => {
+  buscarJogos() {
+    this.jogoService.getJogos().subscribe(result => {
       this.retorno = result;
       if (this.retorno.sucess === true) {
-        this.pessoas = this.retorno.itens;
+        this.jogos = this.retorno.itens;
       } else {
-        this.pessoas = [];
+        this.jogos = [];
         this.mensagemalerta = this.retorno.message;
       }
     }, error => console.error(error));
   }
 
-  removerPessoas(row) {
+  removerJogos(row) {
     this.carregando = true;
 
-    const body: any;
     const params = new HttpParams().set('Id', row.id.toString());
-
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + this.autorizathion
-      }),
-      params
-    };
-
-    this.http.post<Result>(this.baseUrl + 'v1/pessoa/remover', body, options).subscribe(
+    this.jogoService.setRemoverJogos(params).subscribe(
       result => {
         this.retorno = result;
       },
@@ -108,7 +84,7 @@ export class PessoaComponent {
         if (this.retorno.sucess === true) {
           this.mensagemalerta = this.retorno.message;
           this.limparcampos();
-          this.buscarPessoas();
+          this.buscarJogos();
         } else {
           if (this.retorno.message.length > 0) {
             for (let index = 0; index < this.retorno.message.length; index++) {
@@ -122,13 +98,15 @@ export class PessoaComponent {
     );
   }
 
-  editarPessoas(row) {
+  editarJogos(row) {
+    this.Descricao = row.descricao;
     this.Id = row.id;
     this.Nome = row.nome;
   }
 
   limparcampos() {
     this.Id = 0;
+    this.Descricao = '';
     this.Nome = '';
   }
 
