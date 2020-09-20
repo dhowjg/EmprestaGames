@@ -97,5 +97,45 @@ namespace EmprestaGames.Api.Controllers
                 return BadRequest(new { message = erro.Message.ToString(), sucess = false });
             }
         }
+
+        [HttpGet]
+        [Route("getpessoasdonos")]
+        [Authorize(Roles = "user, admin")]
+        public ActionResult<Pessoa> GetJogo(int JogoId)
+        {
+            try
+            {
+                var pessoas = _pessoaxjogo.GetPessoa(JogoId);
+                if (pessoas == null)
+                    return BadRequest(new { message = "Não foi encontrado jogos para essa pessoa" });
+
+                return Ok(new { message = "Pessoa retornada com sucesso!", sucess = true, itens = pessoas });
+
+            }
+            catch (System.Exception erro)
+            {
+                return BadRequest(new { message = erro.Message.ToString(), sucess = false });
+            }
+        }
+
+        [HttpGet]
+        [Route("jogonaoemprestado")]
+        [Authorize(Roles = "user, admin")]
+        public ActionResult<Pessoa> GetJogoNaoEmprestado()
+        {
+            try
+            {
+                var pessoas = _pessoaxjogo.GetJogosNaoEmprestados();
+                if (pessoas == null)
+                    return BadRequest(new { message = "Todos os jogos estão emprestados!" });
+
+                return Ok(new { message = "Jogos retornada com sucesso!", sucess = true, itens = pessoas });
+
+            }
+            catch (System.Exception erro)
+            {
+                return BadRequest(new { message = erro.Message.ToString(), sucess = false });
+            }
+        }
     }
 }

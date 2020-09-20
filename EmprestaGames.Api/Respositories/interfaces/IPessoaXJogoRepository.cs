@@ -10,5 +10,7 @@ namespace EmprestaGames.Api.Respositories
         bool Remove(int Id);
         PessoaXJogo GetId(int Id);
         List<PessoaXJogosResponsecs> Get();
+        List<Pessoa> GetPessoa(int JogoId);
+        List<Jogo> GetJogosNaoEmprestados();
     }
 }

@@ -1,4 +1,4 @@
-<p *ngIf="!forecasts"><em>Loading...</em></p>
+<p *ngIf="!jogosxpessoas"><em>Loading...</em></p>
 
 <div class="card" style="width: 100%;">
   <div class="form-group col-md-4">
@@ -6,22 +6,25 @@
     <p>Jogos emprestados para quais pessoas</p>
   </div>
 
-  <table class='table table-striped' *ngIf="forecasts">
-    <thead>
-      <tr>
-        <th>Data Emprestimo</th>
-        <th>Com quem está</th>
-        <th>De quem é</th>
-        <th>Qual jogo</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let forecast of forecasts">
-        <td>{{ forecast.dateFormatted }}</td>
-        <td>{{ forecast.temperatureC }}</td>
-        <td>{{ forecast.temperatureF }}</td>
-        <td>{{ forecast.summary }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="col-md-12">
+    <table class='table table-striped' *ngIf="jogosxpessoas">
+      <thead>
+        <tr>
+          <th>Data Emprestimo</th>          
+          <th>Jogo</th>
+          <th>De quem</th>
+          <th>Pra quem</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let jxp of jogosxpessoas">
+
+          <td>{{ jxp.dataEmprestimo | date: 'dd/MM/yyyy' }}</td>          
+          <td>{{ jxp.jogo }}</td>
+          <td>{{ jxp.deQuem }}</td>
+          <td>{{ jxp.praQuem }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

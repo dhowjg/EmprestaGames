@@ -1,4 +1,3 @@
-D:\projetos\EmprestaGames\EmprestaGames.Api\obj\Debug\netcoreapp2.2\EmprestaGames.Api.csprojAssemblyReference.cache
 D:\projetos\EmprestaGames\EmprestaGames.Api\obj\Debug\netcoreapp2.2\EmprestaGames.Api.csproj.CoreCompileInputs.cache
 D:\projetos\EmprestaGames\EmprestaGames.Api\obj\Debug\netcoreapp2.2\EmprestaGames.Api.RazorAssemblyInfo.cache
 D:\projetos\EmprestaGames\EmprestaGames.Api\obj\Debug\netcoreapp2.2\EmprestaGames.Api.RazorAssemblyInfo.cs

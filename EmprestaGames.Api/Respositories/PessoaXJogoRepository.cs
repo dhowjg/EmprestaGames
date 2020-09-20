@@ -62,6 +62,38 @@ namespace EmprestaGames.Api.Respositories
             }
         }
 
+        public List<Pessoa> GetPessoa(int JogoId)
+        {
+            try
+            {
+                using (EGContext db = new EGContext())
+                {
+                    return db.PessoasXJogos.Where(a => a.JogoId == JogoId).Select(a => a.Pessoas).ToList();
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<Jogo> GetJogosNaoEmprestados()
+        {
+            try
+            {
+                using (EGContext db = new EGContext())
+                {
+                    var jogosemprestados = db.Emprestimos.Where(x => x.DataDevolvido == null).Select(x => x.JogoId).ToArray();
+                    var itens = db.Jogos.Where(p => !jogosemprestados.Contains(p.Id)).ToList();
+                    return itens;
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
         public PessoaXJogo Inserir(PessoaXJogo model)
         {
             try

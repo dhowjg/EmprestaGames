@@ -41,15 +41,35 @@ namespace EmprestaGames.Api.Controllers
         [HttpPost]
         [Route("remover")]
         [Authorize(Roles = "admin")]
-        public ActionResult<bool> Remover([FromBody] Emprestimo model)
+        public ActionResult<bool> Remover(int Id)
         {
             try
             {
-                var removido = _emprestimo.Remove(model);
+                var removido = _emprestimo.Remove(Id);
                 if (removido == false)
                     return BadRequest(new { message = "Jogo não foi encontrada!" });
 
                 return Ok(new { message = "Jogo removida com sucesso!", sucess = removido });
+
+            }
+            catch (System.Exception erro)
+            {
+                return BadRequest(new { message = erro.Message.ToString(), sucess = false });
+            }
+        }
+
+        [HttpPost]
+        [Route("devolver")]
+        [Authorize(Roles = "admin")]
+        public ActionResult<bool> Devolver(int Id)
+        {
+            try
+            {
+                var removido = _emprestimo.Devolver(Id);
+                if (removido == false)
+                    return BadRequest(new { message = "Jogo não foi encontrada!" });
+
+                return Ok(new { message = "Jogo devolvido com sucesso!", sucess = removido });
 
             }
             catch (System.Exception erro)
@@ -67,7 +87,27 @@ namespace EmprestaGames.Api.Controllers
             {
                 var pessoas = _emprestimo.Get();
                 if (pessoas.Count == 0)
-                    return BadRequest(new { message = "Não foi encontrados jogos cadastradas!" });
+                    return Ok(new { message = "Não foi encontrado registros!", sucess = false });
+
+                return Ok(new { message = "Jogo retornada com sucesso!", sucess = true, itens = pessoas });
+
+            }
+            catch (System.Exception erro)
+            {
+                return BadRequest(new { message = erro.Message.ToString(), sucess = false });
+            }
+        }
+
+        [HttpGet]
+        [Route("soemprestados")]
+        [Authorize(Roles = "user, admin")]
+        public ActionResult<List<Emprestimo>> GetSoEmprestado()
+        {
+            try
+            {
+                var pessoas = _emprestimo.GetSoEmprestado();
+                if (pessoas.Count == 0)
+                    return Ok(new { message = "Não foi encontrado registros!", sucess = false });
 
                 return Ok(new { message = "Jogo retornada com sucesso!", sucess = true, itens = pessoas });
 

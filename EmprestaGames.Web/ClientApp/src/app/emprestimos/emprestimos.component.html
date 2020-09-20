@@ -1,0 +1,80 @@
+<div class="card" style="width: 100%;">
+  <div class="form-group col-md-4">
+    <h1>Emprestimos</h1>
+    <p>Realização do emprestimos de jogos </p>
+  </div>
+
+  <hr>
+  <div class="card-body">
+    <div class="form-row">
+      <div class="container m-4">
+        <form [formGroup]="select2">
+          <label for="Selecione um jogo:">Qual Jogo?:</label>
+          <select (change)="carregarDonoJogo()" class="form-control" formControlName="select">
+            <option value="">Selecione</option>
+            <option [ngValue]="jogo" *ngFor="let jogo of jogos">{{
+              jogo.nome
+            }}</option>
+          </select>
+        </form>
+      </div>
+
+      <div class="container m-4">
+        <form [formGroup]="select">
+          <label for="Selecione uma pessoa:">De Quem?</label>
+          <select class="form-control" formControlName="select">
+            <option value="">Selecione</option>
+            <option [ngValue]="pessoa" *ngFor="let pessoa of pessoasDono">{{
+              pessoa.nome
+            }}</option>
+          </select>
+        </form>
+      </div>
+
+      <div class="container m-4">
+        <form [formGroup]="select3">
+          <label for="Selecione uma pessoa:">Pra Quem?</label>
+          <select class="form-control" formControlName="select">
+            <option value="">Selecione</option>
+            <option [ngValue]="pessoa" *ngFor="let pessoa of pessoasAEmprestar">{{
+              pessoa.nome
+            }}</option>
+          </select>
+        </form>
+      </div>
+    </div>
+    <button type="button" (click)="adcionarItem();" class="btn btn-success">Adicionar</button>
+  </div>
+
+  <hr>
+
+  <div class="col-md-12">
+    <table class='table table-striped' *ngIf="jogosxpessoas">
+      <thead>
+        <tr>
+          <th>Data Emprestimo</th>          
+          <th>Data Devolvido</th>          
+          <th>Jogo</th>
+          <th>De quem</th>
+          <th>Pra quem</th>
+          <th>Remover</th>
+          <th>Devolver</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let jxp of jogosxpessoas">
+          
+          <td>{{ jxp.dataEmprestimo | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ jxp.dataDevolvido | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ jxp.jogo }}</td>
+          <td>{{ jxp.deQuem }}</td>
+          <td>{{ jxp.praQuem }}</td>
+          <td><button (click)="removerEmprestimo(jxp);" class="btn btnRemover"><i class="fa fa-close"></i></button>
+            <td><button (click)="devolverEmprestimo(jxp);" class="btn btnDevolver"><i class="fa fa-thumbs-o-up"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

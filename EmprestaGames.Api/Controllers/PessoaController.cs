@@ -83,7 +83,7 @@ namespace EmprestaGames.Api.Controllers
 
         [HttpGet]
         [Route("getid")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user, admin")]
         public ActionResult<Pessoa> GetId(int Id)
         {
             try
@@ -100,5 +100,7 @@ namespace EmprestaGames.Api.Controllers
                 return BadRequest(new { message = erro.Message.ToString(), sucess = false });
             }
         }
+
+        
     }
 }

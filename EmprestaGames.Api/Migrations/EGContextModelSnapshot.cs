@@ -25,15 +25,21 @@ namespace EmprestaGames.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime?>("DataDevolvido");
+
                     b.Property<DateTime>("DataEmprestimo");
 
                     b.Property<int>("JogoId");
 
-                    b.Property<int>("PessoaEmprestadaId");
+                    b.Property<int?>("PessoaDonoJogoId");
+
+                    b.Property<int?>("PessoaEmprestadaId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("JogoId");
+
+                    b.HasIndex("PessoaDonoJogoId");
 
                     b.HasIndex("PessoaEmprestadaId");
 
@@ -97,10 +103,13 @@ namespace EmprestaGames.Api.Migrations
                         .HasForeignKey("JogoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("EmprestaGames.Api.Models.Pessoa", "PessoaDonoJogo")
+                        .WithMany()
+                        .HasForeignKey("PessoaDonoJogoId");
+
                     b.HasOne("EmprestaGames.Api.Models.Pessoa", "PessoaEmprestada")
                         .WithMany()
-                        .HasForeignKey("PessoaEmprestadaId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PessoaEmprestadaId");
                 });
 
             modelBuilder.Entity("EmprestaGames.Api.Models.PessoaXJogo", b =>

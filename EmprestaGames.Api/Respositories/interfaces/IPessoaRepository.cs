@@ -7,7 +7,7 @@ namespace EmprestaGames.Api.Respositories
     {
         Pessoa Inserir(Pessoa model);
         bool Remove(int Id);
-        Pessoa GetId(int Id);
+        Pessoa GetId(int Id);        
         List<Pessoa> Get();
     }
 }
