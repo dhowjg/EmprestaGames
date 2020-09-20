@@ -29,6 +29,7 @@ namespace EmprestaGames.Api
             services.AddScoped<IPessoaRespository, PessoaRespository>();
             services.AddScoped<IJogoRepository, JogoRepository>();
             services.AddScoped<IEmprestimoRepository, EmprestimoRepository>();
+            services.AddScoped<IPessoaXJogoRepository, PessoaXJogoRepository>();
 
             services.AddCors();
             services.AddMvc(config =>

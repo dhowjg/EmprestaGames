@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EmprestaGames.Api.Controllers
 {
-    [Route("v1/jogo")]
+    [Route("v1/emprestimo")]
     [ApiController]
     public class EmprestimoController : ControllerBase
     {

@@ -15,7 +15,7 @@ namespace EmprestaGames.Api.Controllers
 
         public JogoController(IJogoRepository jogo)
         {
-            jogo = _jogo;
+            _jogo = jogo;
         }
 
         [HttpPost]
@@ -25,11 +25,14 @@ namespace EmprestaGames.Api.Controllers
         {
             try
             {
-                var pessoa = _jogo.Inserir(model);
-                if (pessoa == null)
-                    return BadRequest(new { message = "Jogo não cadastrada" });
+                var jogo = _jogo.Inserir(model);
+                if (jogo == null)
+                    return BadRequest(new { message = "Jogo não encontrado!" });
 
-                return Ok(new { message = "Jogo cadastrada com sucesso!", sucess = true, itens = pessoa });
+                if (model.Id > 0)
+                    return Ok(new { message = "Jogo atualizado com sucesso!", sucess = true, itens = jogo });
+                else
+                    return Ok(new { message = "Jogo cadastrado com sucesso!", sucess = true, itens = jogo });
 
             }
             catch (System.Exception erro)
@@ -41,15 +44,16 @@ namespace EmprestaGames.Api.Controllers
         [HttpPost]
         [Route("remover")]
         [Authorize(Roles = "admin")]
-        public ActionResult<bool> Remover([FromBody] Jogo model)
+        public ActionResult<bool> Remover(int Id)
         {
             try
             {
-                var removido = _jogo.Remove(model);
-                if (removido == false)
-                    return BadRequest(new { message = "Jogo não foi encontrada!" });
 
-                return Ok(new { message = "Jogo removida com sucesso!", sucess = removido });
+                var removido = _jogo.Remove(Id);
+                if (removido == false)
+                    return BadRequest(new { message = "Jogo não encontrado!" });
+
+                return Ok(new { message = "Jogo removido com sucesso!", sucess = removido });
 
             }
             catch (System.Exception erro)
@@ -65,11 +69,11 @@ namespace EmprestaGames.Api.Controllers
         {
             try
             {
-                var pessoas = _jogo.Get();
-                if (pessoas.Count == 0)
-                    return BadRequest(new { message = "Não foi encontrados jogos cadastradas!" });
+                var jogos = _jogo.Get();
+                if (jogos.Count == 0)
+                    return Ok(new { message = "Nenhum jogo cadastrado!", sucess = false });
 
-                return Ok(new { message = "Jogo retornada com sucesso!", sucess = true, itens = pessoas });
+                return Ok(new { message = "Jogos retornados com sucesso!", sucess = true, itens = jogos });
 
             }
             catch (System.Exception erro)
@@ -87,7 +91,7 @@ namespace EmprestaGames.Api.Controllers
             {
                 var jogos = _jogo.GetId(Id);
                 if (jogos == null)
-                    return BadRequest(new { message = "Não foi encontrado jogo com esse Id" });
+                    return BadRequest(new { message = "Não foi encontrado jogo com esse Id", sucess = true });
 
                 return Ok(new { message = "Jogo retornada com sucesso!", sucess = true, itens = jogos });
 

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EmprestaGames.Api.Controllers
 {
-    [Route("v1/jogo")]
+    [Route("v1/pessoaxjogo")]
     [ApiController]
     public class PessoaXJogoController : ControllerBase
     {
@@ -41,11 +41,11 @@ namespace EmprestaGames.Api.Controllers
         [HttpPost]
         [Route("remover")]
         [Authorize(Roles = "admin")]
-        public ActionResult<bool> Remover([FromBody] PessoaXJogo model)
+        public ActionResult<bool> Remover(int id)
         {
             try
             {
-                var removido = _pessoaxjogo.Remove(model);
+                var removido = _pessoaxjogo.Remove(id);
                 if (removido == false)
                     return BadRequest(new { message = "Jogo não foi encontrada!" });
 
@@ -61,13 +61,13 @@ namespace EmprestaGames.Api.Controllers
         [HttpGet]
         [Route("get")]
         [Authorize(Roles = "user, admin")]
-        public ActionResult<List<PessoaXJogo>> Get()
+        public ActionResult<List<dynamic>> Get()
         {
             try
             {
                 var pessoas = _pessoaxjogo.Get();
                 if (pessoas.Count == 0)
-                    return BadRequest(new { message = "Não foi encontrados jogos cadastradas!" });
+                    return Ok(new { message = "Não foi encontrado registros!", sucess = false });
 
                 return Ok(new { message = "Jogo retornada com sucesso!", sucess = true, itens = pessoas });
 

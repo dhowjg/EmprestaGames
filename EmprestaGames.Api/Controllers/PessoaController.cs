@@ -27,9 +27,12 @@ namespace EmprestaGames.Api.Controllers
             {
                 var pessoa = _pessoa.Inserir(model);
                 if (pessoa == null)
-                    return BadRequest(new { message = "Pessoa não cadastrada" });
+                    return BadRequest(new { message = "Pessoa não encontrada!" });
 
-                return Ok(new { message = "Pessoa cadastrada com sucesso!", sucess = true, itens = pessoa });
+                if (model.Id > 0)
+                    return Ok(new { message = "Pessoa atualizada com sucesso!", sucess = true, itens = pessoa });
+                else
+                    return Ok(new { message = "Pessoa cadastrada com sucesso!", sucess = true, itens = pessoa });
 
             }
             catch (System.Exception erro)
@@ -41,13 +44,13 @@ namespace EmprestaGames.Api.Controllers
         [HttpPost]
         [Route("remover")]
         [Authorize(Roles = "admin")]
-        public ActionResult<bool> Remover([FromBody] Pessoa model)
+        public ActionResult<bool> Remover(int Id)
         {
             try
             {
-                var removido = _pessoa.Remove(model);
+                var removido = _pessoa.Remove(Id);
                 if (removido == false)
-                    return BadRequest(new { message = "Pessoa não foi encontrada!" });
+                    return BadRequest(new { message = "Pessoa não encontrada!" });
 
                 return Ok(new { message = "Pessoa removida com sucesso!", sucess = removido });
 
@@ -67,7 +70,7 @@ namespace EmprestaGames.Api.Controllers
             {
                 var pessoas = _pessoa.Get();
                 if (pessoas.Count == 0)
-                    return BadRequest(new { message = "Não foi encontrados pessoas cadastradas!" });
+                    return Ok(new { message = "Nenhum pessoa cadastrada!", sucess = false });
 
                 return Ok(new { message = "Pessoa retornada com sucesso!", sucess = true, itens = pessoas });
 

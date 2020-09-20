@@ -6,7 +6,7 @@ namespace EmprestaGames.Api.Respositories
     public interface IPessoaRespository
     {
         Pessoa Inserir(Pessoa model);
-        bool Remove(Pessoa model);
+        bool Remove(int Id);
         Pessoa GetId(int Id);
         List<Pessoa> Get();
     }

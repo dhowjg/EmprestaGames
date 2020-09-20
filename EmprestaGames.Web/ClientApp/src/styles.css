@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  background-color: #f1f1f1;
+}
+
+/* Style buttons */
+.btn {  
+  /* Blue background */
+  border: none;
+  /* Remove borders */
+  color: white;
+  /* White text */
+  padding: 10px 14px;
+  /* Some padding */
+  font-size: 14px;
+  /* Set a font size */
+  cursor: pointer;
+  /* Mouse pointer on hover */
+}
+
+.btnEditar {
+    background-color: DodgerBlue;
+}
+
+.btnRemover {
+    background-color: red;
+}
+

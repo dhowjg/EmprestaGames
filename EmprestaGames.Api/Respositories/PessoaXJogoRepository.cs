@@ -1,18 +1,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using EmprestaGames.Api.Models;
+using EmprestaGames.Api.Response;
 
 namespace EmprestaGames.Api.Respositories
 {
     public class PessoaXJogoRepository : IPessoaXJogoRepository
     {
-        public List<PessoaXJogo> Get()
+        public List<PessoaXJogosResponsecs> Get()
         {
             try
             {
                 using (EGContext db = new EGContext())
                 {
-                    return db.PessoasXJogos.ToList();
+                    var itens = (from pxj in db.PessoasXJogos
+                                 join jogo in db.Jogos on pxj.JogoId equals jogo.Id
+                                 join pessoa in db.Pessoas on pxj.PessoaId equals pessoa.Id
+                                 select new
+                                 {
+                                     pxj.Id,
+                                     pxj.JogoId,
+                                     pxj.PessoaId,
+                                     nomejogo = jogo.Nome,
+                                     nomepessoa = pessoa.Nome
+                                 }).ToList();
+
+                    var list = new List<PessoaXJogosResponsecs>();
+                    foreach (var item in itens)
+                    {
+                        list.Add(new PessoaXJogosResponsecs
+                        {
+                            Id = item.Id,
+                            JogoId = item.JogoId,
+                            NomeJogo = item.nomejogo,
+                            NomePessoa = item.nomepessoa,
+                            PessoaId = item.PessoaId
+                        });
+                    }
+
+                    return list;
                 }
             }
             catch (System.Exception)
@@ -55,13 +81,14 @@ namespace EmprestaGames.Api.Respositories
             }
         }
 
-        public bool Remove(PessoaXJogo model)
+        public bool Remove(int Id)
         {
             try
             {
                 using (EGContext db = new EGContext())
                 {
-                    
+                    if (Id == 0) return false;
+                    var model = db.PessoasXJogos.Find(Id);
                     db.PessoasXJogos.Remove(model);                    
                     db.SaveChanges();
 
